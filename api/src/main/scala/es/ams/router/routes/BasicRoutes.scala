@@ -10,7 +10,7 @@ import org.http4s.dsl.io._
 
 object BasicRoutes {
 
-  import es.ams.adapter.AppAdapter._
+  import es.ams.adapter.BasicAdapter._
   import es.ams.Utils._
 
   val helloWorldRoute = HttpRoutes

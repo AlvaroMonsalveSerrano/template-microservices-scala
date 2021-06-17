@@ -2,7 +2,7 @@ package es.ams.adapter
 
 import cats.effect.IO
 
-object AppAdapter {
+object BasicAdapter {
 
   import es.ams.views.BasicViews._
 

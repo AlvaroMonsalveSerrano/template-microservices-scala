@@ -2,7 +2,7 @@ package es.ams.adapter
 
 class AppAdapterTest extends munit.FunSuite {
 
-  import es.ams.adapter.AppAdapter._
+  import es.ams.adapter.BasicAdapter._
 
   test("Test AppAdapter: getListEntity function ") {
     val result = getListEntity().unsafeRunSync()

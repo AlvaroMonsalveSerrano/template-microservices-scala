@@ -43,8 +43,8 @@ lazy val root = (project in file("."))
   //  .settings(BuildInfoSettings.value)
   .settings(
     name := "template-microservices",
-    commonSettings,
-    libraryDependencies ++= commonDependencies
+    commonSettings
+//    libraryDependencies ++= commonDependencies
 //    resolvers ++= Seq(
 //      "Local Maven Repository" at "file://" + Path.userHome.absolutePath + "/.m2/repository",
 //      Resolver.sonatypeRepo("releases"),
@@ -66,11 +66,7 @@ lazy val api = (project in file("api"))
     name := "api",
     commonSettings,
     libraryDependencies ++=
-      apiDependencies ++ Seq(
-        scalaTest,
-        munit,
-        munit_cats_effect_2
-      )
+      apiDependencies ++ commonDependencies
   )
 
 lazy val apiDependencies = Seq(
@@ -86,10 +82,7 @@ lazy val services = (project in file("services"))
   .settings(
     name := "services",
     commonSettings,
-    libraryDependencies ++=
-      serviceDependencies ++ Seq(
-        scalaTest
-      )
+    libraryDependencies ++= serviceDependencies ++ commonDependencies
   )
 
 lazy val serviceDependencies = Seq(
@@ -109,12 +102,7 @@ lazy val persistence = (project in file("persistence"))
 //    Compile / packageBin / mappings ++= (macroMQuill / Compile / packageBin / mappings).value,
     // include the macro sources in the main source jar
 //    Compile / packageSrc / mappings ++= (macroMQuill / Compile / packageSrc / mappings).value,
-    libraryDependencies ++=
-      persistenceDependencies ++ Seq(
-        scalaTest,
-        munit,
-        munit_cats_effect_2
-      )
+    libraryDependencies ++= persistenceDependencies ++ commonDependencies
   )
 
 lazy val persistenceDependencies = Seq(

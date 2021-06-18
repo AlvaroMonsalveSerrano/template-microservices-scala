@@ -87,6 +87,7 @@ lazy val services = (project in file("services"))
 
 lazy val serviceDependencies = Seq(
   zio_core,
+  zio_interop_cats,
   zio_streams,
   zio_test,
   zio_test_sbt,

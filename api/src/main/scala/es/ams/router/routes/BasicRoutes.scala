@@ -1,16 +1,20 @@
 package es.ams.router.routes
 
 import cats.effect.IO
-import cats.data.{Kleisli}
-import io.circe.literal._
-import org.http4s.circe.CirceEntityCodec.circeEntityEncoder
+import cats.data.Kleisli
 
+import io.circe.Encoder.AsObject.importedAsObjectEncoder
+import io.circe.generic.auto.exportEncoder
+
+import org.http4s.circe.CirceEntityCodec.circeEntityEncoder
 import org.http4s._
 import org.http4s.dsl.io._
 
+import zio._
+
 object BasicRoutes {
 
-  import es.ams.adapter.BasicAdapter._
+  import es.ams.adapter.basicservice._
   import es.ams.Utils._
 
   val helloWorldRoute = HttpRoutes
@@ -21,20 +25,32 @@ object BasicRoutes {
 
   val basicRoute = HttpRoutes
     .of[IO] {
+
       case req @ POST -> Root / "resource" => {
         // curl -X POST -d "param1=value1&param2=value2" http://localhost:8080/resource
         req.decode[UrlForm] { data =>
           val param1 = getValueFromChain(data.values.get("param1").head)
           val param2 = getValueFromChain(data.values.get("param2").head)
-          Ok(
-            doActionPost(param1, param2)
-          )
+
+          val result = Runtime.default
+            .unsafeRun(
+              doActionPost(param1, param2)
+                .provideLayer(serviceBasicService)
+            )
+          Ok(s"result=${result}")
         }
       }
+
       case req @ GET -> Root / "list" => {
         // curl -X GET  http://localhost:8080/list
-        getListEntity().flatMap(Ok(_))
+
+        val result = Runtime.default
+          .unsafeRun(
+            getListEntity().provideLayer(serviceBasicService)
+          )
+        Ok(s"result=${result}")
       }
+
       case req @ DELETE -> Root / "resource" / IntVar(idToDelete) => {
         // curl -X DELETE http://localhost:8080/resource/1
         Ok("Delete resource")
@@ -45,15 +61,17 @@ object BasicRoutes {
         req.decode[UrlForm] { data =>
           val param1 = getValueFromChain(data.values.get("param1").head)
           val param2 = getValueFromChain(data.values.get("param2").head)
-          Ok(
-            doActionPut(param1, param2)
-          )
+
+          val result = Runtime.default
+            .unsafeRun(
+              doActionPut(param1, param2)
+                .provideLayer(serviceBasicService)
+            )
+
+          Ok(s"Result=${result}")
         }
-
       }
-
     }
-
 }
 
 object MiddlewareBasicRoutes {

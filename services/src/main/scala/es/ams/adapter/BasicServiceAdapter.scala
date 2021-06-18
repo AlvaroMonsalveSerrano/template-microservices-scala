@@ -68,4 +68,5 @@ package object basicservice {
   def doActionPut(param1: TypeParam, param2: TypeParam): ZIO[BasicService, ServiceError, List[BasicResponse]] =
     ZIO.accessM(_.get.doActionPut(param1, param2))
 
+  val serviceBasicService: ZLayer[Any, Nothing, BasicService] = BasicService.live
 }

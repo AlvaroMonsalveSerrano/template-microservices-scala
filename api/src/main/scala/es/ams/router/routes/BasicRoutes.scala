@@ -37,7 +37,7 @@ object BasicRoutes {
               doActionPost(param1, param2)
                 .provideLayer(serviceBasicService)
             )
-          Ok(s"result=${result}")
+          Ok(s"result=${result}") // TODO response JSON
         }
       }
 
@@ -48,7 +48,7 @@ object BasicRoutes {
           .unsafeRun(
             getListEntity().provideLayer(serviceBasicService)
           )
-        Ok(s"result=${result}")
+        Ok(s"result=${result}") // TODO response JSON
       }
 
       case req @ DELETE -> Root / "resource" / IntVar(idToDelete) => {
@@ -68,7 +68,7 @@ object BasicRoutes {
                 .provideLayer(serviceBasicService)
             )
 
-          Ok(s"Result=${result}")
+          Ok(s"Result=${result}") // TODO response JSON
         }
       }
     }

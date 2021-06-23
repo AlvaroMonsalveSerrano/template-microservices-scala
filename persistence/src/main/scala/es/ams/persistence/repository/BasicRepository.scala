@@ -14,11 +14,19 @@ class BasicRepository(configPrefix: String)(implicit ec: ExecutionContext)
     with IBasic {
 
   import ctx._
-  import es.ams.model.DomainBasic.Base
+  import es.ams.services.model.DomainBasic.Base
 
   override def findAll(): Future[List[Base]] = {
     val program = for {
       result <- runIO(selectAll())
+    } yield { result }
+
+    performIO(program)
+  }
+
+  override def insert(entity: Base): Future[Int] = {
+    val program = for {
+      result <- runIO(insertBase(entity))
     } yield { result }
 
     performIO(program)

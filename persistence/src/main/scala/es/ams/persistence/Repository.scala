@@ -1,9 +1,11 @@
 package es.ams.persistence
 
-import scala.concurrent.Future
+import es.ams.services.model.DomainBasic.Base
 
-import es.ams.model.DomainBasic.Base
+import scala.concurrent.Future
 
 trait IBasic {
   def findAll(): Future[List[Base]]
+
+  def insert(entity: Base): Future[Int]
 }

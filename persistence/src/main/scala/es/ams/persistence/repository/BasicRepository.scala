@@ -1,12 +1,17 @@
 package es.ams.persistence.repository
 
-import es.ams.persistence.{BaseAsynRepository, IBase}
+import es.ams.persistence.{BaseAsynRepository, IBasic}
 
 import scala.concurrent.{ExecutionContext, Future}
 
+/** Declarations of programs with operations in database.
+  *
+  * @param configPrefix
+  * @param ec
+  */
 class BasicRepository(configPrefix: String)(implicit ec: ExecutionContext)
     extends BaseAsynRepository(configPrefix)
-    with IBase {
+    with IBasic {
 
   import ctx._
   import es.ams.model.DomainBasic.Base

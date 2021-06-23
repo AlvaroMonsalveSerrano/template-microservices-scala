@@ -4,6 +4,6 @@ import scala.concurrent.Future
 
 import es.ams.model.DomainBasic.Base
 
-trait IBase {
+trait IBasic {
   def findAll(): Future[List[Base]]
 }

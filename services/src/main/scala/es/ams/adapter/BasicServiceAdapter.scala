@@ -36,11 +36,9 @@ object BasicServiceAdapter {
             BasicResponse(name = "1", value = param1),
             BasicResponse(name = "2", value = param2)
           )
-
         }
 
         override def getListEntity(): IO[ServiceError, List[BasicResponse]] = IO.succeed {
-
           // TODO Task[List[Base]]
           val resultRepository: List[Base] = Await.result(BasicRepository.apply().findAll(), Duration.Inf)
           resultRepository.map(elem => BasicResponse(name = elem.width_rec.toString, value = elem.length_rec.toString))

@@ -5,23 +5,18 @@ class AppAdapterTest extends munit.FunSuite {
   import es.ams.adapter.BasicAdapter._
 
   test("Test AppAdapter: getListEntity function ") {
-    val result = getListEntity().unsafeRunSync()
-    assertEquals(result.size, 3)
+    val result = getList()
+    assertEquals(result.size > 0, true)
   }
 
   test("Test AppAdapter: doActionPost function ") {
-    val result = doActionPost("param1", "param2").unsafeRunSync()
-    assertEquals(result.size, 2)
+    val result = doPost("param1", "param2")
+    assertEquals(result.size > 0, true)
   }
 
   test("Test AppAdapter: doActionPut function ") {
-    val result = doActionPut("param1", "param2").unsafeRunSync()
-    assertEquals(result.size, 2)
-  }
-
-  test("Test AppAdapter: getResult function ") {
-    val result = getResult("param1", "param2")
-    assertEquals(result.size, 2)
+    val result = doPut("param1", "param2")
+    assertEquals(result.size > 0, true)
   }
 
 }

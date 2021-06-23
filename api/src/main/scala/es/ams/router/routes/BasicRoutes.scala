@@ -10,11 +10,10 @@ import org.http4s.circe.CirceEntityCodec.circeEntityEncoder
 import org.http4s._
 import org.http4s.dsl.io._
 
-import zio._
-
 object BasicRoutes {
 
-  import es.ams.adapter.basicservice._
+  import es.ams.adapter.BasicAdapter._
+
   import es.ams.Utils._
 
   val helloWorldRoute = HttpRoutes
@@ -32,23 +31,14 @@ object BasicRoutes {
           val param1 = getValueFromChain(data.values.get("param1").head)
           val param2 = getValueFromChain(data.values.get("param2").head)
 
-          val result = Runtime.default
-            .unsafeRun(
-              doActionPost(param1, param2)
-                .provideLayer(serviceBasicService)
-            )
-          Ok(s"result=${result}") // TODO response JSON
+          Ok(s"result=${doPost(param1, param2)}") // TODO response JSON
         }
       }
 
       case req @ GET -> Root / "list" => {
         // curl -X GET  http://localhost:8080/list
 
-        val result = Runtime.default
-          .unsafeRun(
-            getListEntity().provideLayer(serviceBasicService)
-          )
-        Ok(s"result=${result}") // TODO response JSON
+        Ok(s"result=${getList()}") // TODO response JSON
       }
 
       case req @ DELETE -> Root / "resource" / IntVar(idToDelete) => {
@@ -62,13 +52,7 @@ object BasicRoutes {
           val param1 = getValueFromChain(data.values.get("param1").head)
           val param2 = getValueFromChain(data.values.get("param2").head)
 
-          val result = Runtime.default
-            .unsafeRun(
-              doActionPut(param1, param2)
-                .provideLayer(serviceBasicService)
-            )
-
-          Ok(s"Result=${result}") // TODO response JSON
+          Ok(s"Result=${doPut(param1, param2)}") // TODO response JSON
         }
       }
     }

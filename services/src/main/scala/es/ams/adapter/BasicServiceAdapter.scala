@@ -1,9 +1,12 @@
 package es.ams.adapter
 
-//import zio.clock.Clock
-import zio.{Has, IO, ZIO, ZLayer} // Runtime, Task, UIO, URIO,
-//import zio.console.Console
-//import zio.random.Random
+import es.ams.persistence.repository.BasicRepository
+import zio.{Has, IO, ZIO, ZLayer}
+import zio.console.Console
+
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await}
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object BasicServiceAdapter {
 
@@ -26,19 +29,22 @@ object BasicServiceAdapter {
     val live: ZLayer[Any, Nothing, BasicService] = ZLayer.succeed(
       new Service {
 
-        def getResult(param1: String, param2: String): List[BasicResponse] =
+        import es.ams.model.DomainBasic._
+
+        def getResult(param1: String, param2: String): List[BasicResponse] = {
           List(
             BasicResponse(name = "1", value = param1),
             BasicResponse(name = "2", value = param2)
           )
 
-        override def getListEntity(): IO[ServiceError, List[BasicResponse]] = IO.succeed(
-          List(
-            BasicResponse(name = "name1_1", value = "value1_2"),
-            BasicResponse(name = "name2_1", value = "value2_2"),
-            BasicResponse(name = "name3_1", value = "value3_2")
-          )
-        )
+        }
+
+        override def getListEntity(): IO[ServiceError, List[BasicResponse]] = IO.succeed {
+
+          // TODO Task[List[Base]]
+          val resultRepository: List[Base] = Await.result(BasicRepository.apply().findAll(), Duration.Inf)
+          resultRepository.map(elem => BasicResponse(name = elem.width_rec.toString, value = elem.length_rec.toString))
+        }
 
         override def doActionPost(param1: TypeParam, param2: TypeParam): IO[ServiceError, List[BasicResponse]] =
           IO.succeed(
@@ -68,5 +74,5 @@ package object basicservice {
   def doActionPut(param1: TypeParam, param2: TypeParam): ZIO[BasicService, ServiceError, List[BasicResponse]] =
     ZIO.accessM(_.get.doActionPut(param1, param2))
 
-  val serviceBasicService: ZLayer[Any, Nothing, BasicService] = BasicService.live
+  val serviceBasicService: ZLayer[Any, Nothing, Console with BasicService] = Console.live ++ BasicService.live
 }

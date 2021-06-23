@@ -79,6 +79,7 @@ lazy val apiDependencies = Seq(
 )
 
 lazy val services = (project in file("services"))
+  .dependsOn(persistence)
   .settings(
     name := "services",
     commonSettings,
@@ -95,6 +96,7 @@ lazy val serviceDependencies = Seq(
 )
 
 lazy val persistence = (project in file("persistence"))
+  .dependsOn(model)
   .settings(
     name := "persistence",
     commonSettings,

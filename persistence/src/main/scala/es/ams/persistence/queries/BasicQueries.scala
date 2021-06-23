@@ -3,7 +3,7 @@ package es.ams.persistence.queries
 import io.getquill._
 import io.getquill.context.Context
 import io.getquill.monad.IOMonad
-import es.ams.services.model.DomainBasic.Base
+import es.ams.model.DomainBasic.Base
 
 trait BasicQueries extends IOMonad {
   this: Context[_, _] =>

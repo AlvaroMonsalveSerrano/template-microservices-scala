@@ -25,7 +25,7 @@ object BasicServiceAdapter {
     val live: ZLayer[Any, Nothing, BasicService] = ZLayer.succeed(
       new Service {
 
-        import es.ams.services.model.DomainBasic._
+        import es.ams.model.DomainBasic._
 
         def getResult(param1: String, param2: String): List[BasicResponse] = {
           List(

@@ -1,4 +1,4 @@
-package es.ams.services.model
+package es.ams.model
 
 object DomainBasic {
 

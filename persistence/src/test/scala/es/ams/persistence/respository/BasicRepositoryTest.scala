@@ -1,12 +1,12 @@
-package es.ams.services.persistence.respository
+package es.ams.persistence.respository
 
-import org.scalatest.flatspec.AnyFlatSpec
-import es.ams.services.model.DomainBasic.Base
 import es.ams.persistence.repository.BasicRepository
+import es.ams.services.model.DomainBasic.Base
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.concurrent.Await
-import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.Duration
 
 class BasicRepositoryTest extends AnyFlatSpec {
 

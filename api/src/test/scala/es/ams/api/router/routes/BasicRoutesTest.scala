@@ -17,7 +17,7 @@ class BasicRoutesTest extends munit.FunSuite {
   }
 
   test("Test basic Route: GET list") {
-    val requestTest = Request[IO](Method.GET, uri"/list")
+    val requestTest = Request[IO](Method.GET, uri"/basic/list")
     val result      = basicRoute.orNotFound.run(requestTest).unsafeRunSync()
 
     assertEquals(result.status, Status.Ok)

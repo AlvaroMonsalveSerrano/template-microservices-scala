@@ -35,9 +35,8 @@ object BasicRoutes {
         }
       }
 
-      case req @ GET -> Root / "list" => {
-        // curl -X GET  http://localhost:8080/list
-
+      case req @ GET -> Root / "basic" / "list" => {
+        // curl -X GET  http://localhost:8080/basic/list
         Ok(s"result=${getList()}") // TODO response JSON
       }
 

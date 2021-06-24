@@ -19,7 +19,7 @@ object BasicServiceAdapterTest extends DefaultRunnableSpec {
 
   def testDoActionPost = testM("doActionPost function") {
     for {
-      result <- doActionPost(BasicRequest(name = "1", value = "2"))
+      result <- doActionPost(BasicServiceRequest(name = "1", value = "2"))
     } yield {
       assert(result > 0)(equalTo(true))
     }
@@ -27,7 +27,7 @@ object BasicServiceAdapterTest extends DefaultRunnableSpec {
 
   def testDoActionPut = testM("doActionPut function") {
     for {
-      result <- doActionPut(BasicRequest(id = Some(1), name = "1", value = "2"))
+      result <- doActionPut(BasicServiceRequest(id = Some(1), name = "1", value = "2"))
     } yield {
       assert(result.isValid())(equalTo(true))
     }

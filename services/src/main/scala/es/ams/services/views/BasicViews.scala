@@ -2,10 +2,10 @@ package es.ams.services.views
 
 object BasicViews {
 
-  case class BasicResponse(name: String, value: String) {
+  case class BasicServiceResponse(name: String = "", value: String = "") {
     def isValid(): Boolean = true
   }
 
-  case class BasicRequest(id: Option[Int] = None, name: String, value: String)
+  case class BasicServiceRequest(id: Option[Int] = None, name: String, value: String)
 
 }

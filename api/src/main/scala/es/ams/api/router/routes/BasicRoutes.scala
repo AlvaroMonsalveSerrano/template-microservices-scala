@@ -25,8 +25,8 @@ object BasicRoutes {
   val basicRoute = HttpRoutes
     .of[IO] {
 
-      case req @ POST -> Root / "resource" => {
-        // curl -X POST -d "param1=3&param2=3" http://localhost:8080/resource
+      case req @ POST -> Root / "basic" => {
+        // curl -X POST -d "param1=3&param2=3" http://localhost:8080/basic
         req.decode[UrlForm] { data =>
           val param1 = getValueFromChain(data.values.get("param1").head)
           val param2 = getValueFromChain(data.values.get("param2").head)
@@ -41,18 +41,19 @@ object BasicRoutes {
         Ok(s"result=${getList()}") // TODO response JSON
       }
 
-      case req @ DELETE -> Root / "resource" / IntVar(idToDelete) => {
-        // curl -X DELETE http://localhost:8080/resource/1
-        Ok("Delete resource")
+      case req @ DELETE -> Root / "basic" / IntVar(idToDelete) => {
+        // curl -X DELETE http://localhost:8080/basic/1
+        Ok(s"Result=${doDelete(idToDelete)}")
       }
 
-      case req @ PUT -> Root / "resource" => {
-        // curl -X PUT -d "param1=value1&param2=value2" http://localhost:8080/resource
+      case req @ PUT -> Root / "basic" => {
+        // curl -X PUT -d "id=4&param1=44&param2=44" http://localhost:8080/basic
         req.decode[UrlForm] { data =>
+          val id     = getValueFromChain(data.values.get("id").get)
           val param1 = getValueFromChain(data.values.get("param1").head)
           val param2 = getValueFromChain(data.values.get("param2").head)
 
-          Ok(s"Result=${doPut(param1, param2)}") // TODO response JSON
+          Ok(s"Result=${doPut(id.toInt, param1, param2)}") // TODO response JSON
         }
       }
     }

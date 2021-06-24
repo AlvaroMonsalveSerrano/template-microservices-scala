@@ -15,8 +15,8 @@ class AppAdapterTest extends munit.FunSuite {
   }
 
   test("Test AppAdapter: doActionPut function ") {
-    val result = doPut("1", "2")
-    assertEquals(result.size > 0, true)
+    val result = doPut(1, "1", "2")
+    assertEquals(result.isValid(), true)
   }
 
 }

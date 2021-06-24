@@ -22,4 +22,20 @@ trait BasicQueries extends IOMonad {
     }
   }
 
+  def deleteBase(id: Int): Quoted[Delete[Base]] = {
+    quote {
+      query[Base]
+        .filter(e => e.id_rec == lift(id))
+        .delete
+    }
+  }
+
+  def updateBase(entity: Base) = {
+    quote {
+      query[Base]
+        .filter(e => e.id_rec == lift(entity.id_rec))
+        .update(lift(entity))
+    }
+  }
+
 }

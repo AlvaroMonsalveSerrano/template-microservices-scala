@@ -8,4 +8,8 @@ trait IBasic {
   def findAll(): Future[List[Base]]
 
   def insert(entity: Base): Future[Int]
+
+  def delete(id: Int): Future[Int]
+
+  def update(entity: Base): Future[Base]
 }

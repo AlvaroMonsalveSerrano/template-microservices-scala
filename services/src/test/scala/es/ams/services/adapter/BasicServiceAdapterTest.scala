@@ -27,16 +27,15 @@ object BasicServiceAdapterTest extends DefaultRunnableSpec {
 
   def testDoActionPut = testM("doActionPut function") {
     for {
-      result <- doActionPut(BasicRequest(name = "1", value = "2"))
+      result <- doActionPut(BasicRequest(id = Some(1), name = "1", value = "2"))
     } yield {
-      assert(result.size > 0)(equalTo(true))
-      assert(result.size == 2)(equalTo(true))
+      assert(result.isValid())(equalTo(true))
     }
   }
 
   val individuall = suite("individually")(
     suite("Basic Service Adapter getListEntity")(
-      testGetListEntity, // TODO Task[List[Base]]
+      testGetListEntity,
       testDoActionPost,
       testDoActionPut
     ).provideCustomLayerShared(BasicService.live)

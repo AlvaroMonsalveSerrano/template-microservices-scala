@@ -1,7 +1,7 @@
 package es.ams.services.adapter
 
 import es.ams.persistence.repository.BasicRepository
-import zio.{Has, IO, Task, ZIO, ZLayer}
+import zio.{Has, Task, ZIO, ZLayer}
 import zio.console.Console
 
 object BasicServiceAdapter {
@@ -18,7 +18,8 @@ object BasicServiceAdapter {
     trait Service {
       def getListEntity(): Task[List[BasicResponse]]
       def doActionPost(request: BasicRequest): Task[Int]
-      def doActionPut(request: BasicRequest): IO[ServiceError, List[BasicResponse]]
+      def doActionPut(request: BasicRequest): Task[BasicResponse]
+      def doDelete(id: Int): Task[Int]
     }
 
     // Service implementation
@@ -27,12 +28,12 @@ object BasicServiceAdapter {
 
         import es.ams.model.DomainBasic._
 
-        def getResult(param1: String, param2: String): List[BasicResponse] = {
-          List(
-            BasicResponse(name = "1", value = param1),
-            BasicResponse(name = "2", value = param2)
-          )
-        }
+//        def getResult(param1: String, param2: String): List[BasicResponse] = {
+//          List(
+//            BasicResponse(name = "1", value = param1),
+//            BasicResponse(name = "2", value = param2)
+//          )
+//        }
 
         override def getListEntity(): Task[List[BasicResponse]] = {
           def toListBasicResponse(list: List[Base]): List[BasicResponse] =
@@ -49,10 +50,19 @@ object BasicServiceAdapter {
           )
         }
 
-        override def doActionPut(request: BasicRequest): IO[ServiceError, List[BasicResponse]] =
-          IO.succeed(
-            getResult(request.name, request.value)
+        override def doActionPut(request: BasicRequest): Task[BasicResponse] = {
+          ZIO.fromFuture(implicit ec =>
+            BasicRepository
+              .apply()
+              .update(Base(id_rec = request.id.get, length_rec = request.name.toInt, width_rec = request.value.toInt))
+              .map(elem => BasicResponse(name = elem.length_rec.toString, value = elem.width_rec.toString))
           )
+        }
+
+        override def doDelete(id: Int): Task[Int] = {
+          ZIO.fromFuture(implicit ec => BasicRepository.apply().delete(id))
+        }
+
       }
     )
 
@@ -69,8 +79,10 @@ package object basicservice {
   def doActionPost(request: BasicRequest): ZIO[BasicService, Throwable, Int] =
     ZIO.accessM(_.get.doActionPost(request))
 
-  def doActionPut(request: BasicRequest): ZIO[BasicService, Throwable, List[BasicResponse]] =
+  def doActionPut(request: BasicRequest): ZIO[BasicService, Throwable, BasicResponse] =
     ZIO.accessM(_.get.doActionPut(request))
+
+  def doActionDelete(id: Int): ZIO[BasicService, Throwable, Int] = ZIO.accessM(_.get.doDelete(id))
 
   val serviceBasicService: ZLayer[Any, Nothing, Console with BasicService] = Console.live ++ BasicService.live
 }

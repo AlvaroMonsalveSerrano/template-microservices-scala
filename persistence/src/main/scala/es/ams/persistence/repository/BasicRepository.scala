@@ -32,6 +32,22 @@ class BasicRepository(configPrefix: String)(implicit ec: ExecutionContext)
     performIO(program)
   }
 
+  override def delete(id: Int): Future[Int] = {
+    val program = for {
+      _ <- runIO(deleteBase(id))
+    } yield { id }
+
+    performIO(program)
+  }
+
+  override def update(entity: Base): Future[Base] = {
+    val program = for {
+      _ <- runIO(updateBase(entity))
+    } yield { entity }
+
+    performIO(program)
+  }
+
 }
 object BasicRepository {
   def apply()(implicit ec: ExecutionContext)                     = new BasicRepository("asynpostgres")

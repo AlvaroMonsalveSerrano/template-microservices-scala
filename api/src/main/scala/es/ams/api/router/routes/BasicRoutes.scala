@@ -10,7 +10,7 @@ import org.http4s.circe.CirceEntityCodec.circeEntityEncoder
 import org.http4s._
 import org.http4s.dsl.io._
 
-object BasicRoutes {
+protected[api] object BasicRoutes {
 
   import es.ams.api.adapter.BasicAdapter._
 
@@ -58,7 +58,7 @@ object BasicRoutes {
     }
 }
 
-object MiddlewareBasicRoutes {
+protected[api] object MiddlewareBasicRoutes {
 
   def myMiddleRedinessRoutes(httpRoutes: HttpRoutes[IO], header: Header): HttpRoutes[IO] = Kleisli {
     (req: Request[IO]) =>

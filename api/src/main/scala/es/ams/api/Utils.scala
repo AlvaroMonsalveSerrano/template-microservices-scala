@@ -2,7 +2,7 @@ package es.ams.api
 
 import cats.data.Chain
 
-object Utils {
+protected[api] object Utils {
 
   // Es una utilidad.
   def getValueFromChain[A](chain: Chain[A]): String = chain match {

@@ -8,14 +8,14 @@ import es.ams.services.views.BasicViews.{BasicServiceRequest, BasicServiceRespon
 import zio.Exit.{Failure, Success}
 import zio.console.{Console, putStrLn}
 
-trait BasicAdapter {
+protected[api] trait BasicAdapter {
   def getList(): Either[ErrorResponse, List[BasicResponse]]
   def doPost(param1: String, param2: String): Either[ErrorResponse, Int]
   def doPut(id: Int, param1: String, param2: String): Either[ErrorResponse, BasicServiceResponse]
   def doDelete(id: Int): Either[ErrorResponse, Int]
 }
 
-object BasicAdapter extends BasicAdapter {
+protected[api] object BasicAdapter extends BasicAdapter {
 
   def getList(): Either[ErrorResponse, List[BasicResponse]] = {
 

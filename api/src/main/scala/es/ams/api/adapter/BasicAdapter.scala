@@ -1,7 +1,7 @@
 package es.ams.api.adapter
 
 import es.ams.services.adapter.BasicServiceAdapter.BasicService
-import es.ams.services.adapter.basicservice._
+import es.ams.services._
 import zio._
 import es.ams.api.views.BasicViews._
 import es.ams.services.views.BasicViews.{BasicServiceRequest, BasicServiceResponse}

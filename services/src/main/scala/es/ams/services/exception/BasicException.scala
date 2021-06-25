@@ -1,10 +1,5 @@
 package es.ams.services.exception
 
-object TypeException {
-  type ServiceBasicException = java.lang.Throwable
-
-}
-
 object BasicException {
 
   final class ServiceBasicException(

@@ -2,9 +2,6 @@ package es.ams.services.adapter
 
 import es.ams.persistence.repository.BasicRepository
 import zio.{Has, Task, ZIO, ZLayer}
-import zio.console.Console
-
-//import java.net.ConnectException
 
 object BasicServiceAdapter {
 
@@ -86,29 +83,8 @@ object BasicServiceAdapter {
                 )
               )
             )
-
         }
-
       }
     )
   }
-}
-
-// TODO move to package file.
-import BasicServiceAdapter._
-package object basicservice {
-
-  import es.ams.services.views.BasicViews._
-
-  def getListEntity(): ZIO[BasicService, Throwable, List[BasicServiceResponse]] = ZIO.accessM(_.get.getListEntity())
-
-  def doActionPost(request: BasicServiceRequest): ZIO[BasicService, Throwable, Int] =
-    ZIO.accessM(_.get.doActionPost(request))
-
-  def doActionPut(request: BasicServiceRequest): ZIO[BasicService, Throwable, BasicServiceResponse] =
-    ZIO.accessM(_.get.doActionPut(request))
-
-  def doActionDelete(id: Int): ZIO[BasicService, Throwable, Int] = ZIO.accessM(_.get.doDelete(id))
-
-  val serviceBasicService: ZLayer[Any, Nothing, Console with BasicService] = Console.live ++ BasicService.live
 }

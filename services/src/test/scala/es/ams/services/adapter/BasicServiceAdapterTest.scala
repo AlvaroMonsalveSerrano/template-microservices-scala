@@ -2,7 +2,7 @@ package es.ams.services.adapter
 
 import zio.test._
 import Assertion._
-import es.ams.services.adapter.basicservice._
+import es.ams.services._
 import es.ams.services.views.BasicViews._
 
 object BasicServiceAdapterTest extends DefaultRunnableSpec {

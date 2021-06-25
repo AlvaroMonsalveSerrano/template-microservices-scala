@@ -1,6 +1,6 @@
 package es.ams.api.app
 
-import es.ams.services.adapter.basicservice.{getListEntity, serviceBasicService}
+import es.ams.services.{getListEntity, serviceBasicService}
 import zio._
 import zio.console._
 import zio.interop.catz._

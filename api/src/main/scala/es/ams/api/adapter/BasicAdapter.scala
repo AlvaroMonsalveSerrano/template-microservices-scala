@@ -1,12 +1,12 @@
 package es.ams.api.adapter
 
-import es.ams.services.adapter.BasicServiceAdapter.BasicService
-import es.ams.services._
 import zio._
-import es.ams.api.views.BasicViews._
-import es.ams.services.views.BasicViews.{BasicServiceRequest, BasicServiceResponse}
 import zio.Exit.{Failure, Success}
 import zio.console.{Console, putStrLn}
+
+import es.ams.api.views.BasicViews._
+import es.ams.services._
+import es.ams.services.views.BasicViews.{BasicServiceRequest, BasicServiceResponse}
 
 protected[api] trait BasicAdapter {
   def getList(): Either[ErrorResponse, List[BasicResponse]]

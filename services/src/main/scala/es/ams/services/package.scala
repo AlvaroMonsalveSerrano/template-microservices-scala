@@ -2,10 +2,12 @@ package es.ams
 
 import es.ams.services.adapter.BasicServiceAdapter.BasicService
 import es.ams.services.views.BasicViews._
-import zio.{ZIO, ZLayer}
+import zio.{ZIO, ZLayer, Has}
 import zio.console.Console
 
 package object services {
+
+  type BasicService = Has[BasicService.Service]
 
   def getListEntity(): ZIO[BasicService, Throwable, List[BasicServiceResponse]] = ZIO.accessM(_.get.getListEntity())
 

@@ -1,7 +1,9 @@
 package es.ams.services.adapter
 
 import es.ams.persistence.BasicRepository
-import zio.{Has, Task, ZIO, ZLayer}
+import zio.{Task, ZIO, ZLayer}
+
+import es.ams.services.BasicService
 
 object BasicServiceAdapter {
 
@@ -10,7 +12,6 @@ object BasicServiceAdapter {
 
   type TypeParam    = String
   type ServiceError = ServiceBasicException
-  type BasicService = Has[BasicService.Service]
 
   object BasicService {
 

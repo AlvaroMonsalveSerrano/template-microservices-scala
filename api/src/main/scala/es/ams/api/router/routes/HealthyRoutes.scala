@@ -1,9 +1,10 @@
 package es.ams.api.router.routes
 
 import cats.data.Kleisli
-import org.http4s._
 
 import cats.effect.IO
+
+import org.http4s._
 import org.http4s.HttpRoutes
 import org.http4s.dsl.io._
 

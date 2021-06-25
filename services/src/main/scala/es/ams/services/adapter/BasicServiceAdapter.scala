@@ -25,7 +25,7 @@ object BasicServiceAdapter {
     val live: ZLayer[Any, Nothing, BasicService] = ZLayer.succeed(
       new Service {
 
-        import es.ams.model.DomainBasic._
+        import es.ams.model._
 
         override def getListEntity(): Task[List[BasicServiceResponse]] = {
           def toListBasicResponse(list: List[Base]): List[BasicServiceResponse] =

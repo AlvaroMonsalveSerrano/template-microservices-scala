@@ -1,6 +1,6 @@
 package es.ams.persistence
 
-import es.ams.model.DomainBasic.Base
+import es.ams.model._
 
 import scala.concurrent.Future
 

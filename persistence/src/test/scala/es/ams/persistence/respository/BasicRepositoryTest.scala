@@ -1,7 +1,7 @@
 package es.ams.persistence.respository
 
 import es.ams.persistence.repository.BasicRepository
-import es.ams.model.DomainBasic.Base
+import es.ams.model._
 import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.concurrent.Await

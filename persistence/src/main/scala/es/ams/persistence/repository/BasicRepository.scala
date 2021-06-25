@@ -14,7 +14,6 @@ class BasicRepository(configPrefix: String)(implicit ec: ExecutionContext)
     with IBasic {
 
   import ctx._
-  import es.ams.model
   import es.ams.model._
 
   override def findAll(): Future[List[Base]] = {

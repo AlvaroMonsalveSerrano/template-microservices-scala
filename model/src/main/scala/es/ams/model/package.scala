@@ -1,3 +1,3 @@
 package es.ams
 
-package object model extends BaseModel with DomainBasic {}
+package object model extends BaseModel with DomainBasicModel {}

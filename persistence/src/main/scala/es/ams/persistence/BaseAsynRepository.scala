@@ -8,7 +8,7 @@ import io.getquill.{PostgresAsyncContext, SnakeCase}
   *
   * @param configPrefix Context name
   */
-abstract class BaseAsynRepository(configPrefix: String) {
+protected[persistence] abstract class BaseAsynRepository(configPrefix: String) {
   // Define ctx with all Entity Queries
   protected val ctx = new PostgresAsyncContext(SnakeCase, configPrefix) with BasicQueries with OtherEntityQueries
 }

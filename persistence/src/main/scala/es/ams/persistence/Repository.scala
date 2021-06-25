@@ -4,7 +4,7 @@ import es.ams.model._
 
 import scala.concurrent.Future
 
-trait IBasic {
+protected[persistence] trait IBasic {
   def findAll(): Future[List[Base]]
 
   def insert(entity: Base): Future[Int]

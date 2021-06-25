@@ -1,6 +1,6 @@
 package es.ams.services.adapter
 
-import es.ams.persistence.repository.BasicRepository
+import es.ams.persistence.BasicRepository
 import zio.{Has, Task, ZIO, ZLayer}
 
 object BasicServiceAdapter {

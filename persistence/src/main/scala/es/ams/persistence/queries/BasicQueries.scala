@@ -5,7 +5,7 @@ import io.getquill.context.Context
 import io.getquill.monad.IOMonad
 import es.ams.model._
 
-trait BasicQueries extends IOMonad {
+protected[persistence] trait BasicQueries extends IOMonad {
   this: Context[_, _] =>
 
   def selectAll(): Quoted[EntityQuery[Base]] = {

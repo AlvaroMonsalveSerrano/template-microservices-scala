@@ -1,6 +1,4 @@
-package es.ams.persistence.repository
-
-import es.ams.persistence.{BaseAsynRepository, IBasic}
+package es.ams.persistence
 
 import scala.concurrent.{ExecutionContext, Future}
 

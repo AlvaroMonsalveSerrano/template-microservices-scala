@@ -3,7 +3,7 @@ package es.ams.api
 import cats.data.Chain
 import es.ams.api.views.BasicDTO.{CreateBasic, UpdateBasic}
 
-protected[api] object Utils {
+private[api] object Utils {
 
   // Es una utilidad.
   def getStringValueFromChain[A](chain: Chain[A]): String = chain match {

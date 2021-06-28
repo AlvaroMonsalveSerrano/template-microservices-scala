@@ -2,7 +2,7 @@ package es.ams.api.views
 
 import io.circe.{Decoder, Encoder}
 
-protected[api] object BasicViews {
+private[api] object BasicViews {
 
   case class BasicResponse(name: String, value: String)
   object BasicResponse {

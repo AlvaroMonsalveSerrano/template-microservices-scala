@@ -6,14 +6,14 @@ import zio.Exit.{Failure, Success}
 import es.ams.api.views.BasicViews._
 import es.ams.services._
 
-protected[api] trait BasicAdapter {
+private[api] trait BasicAdapter {
   def getList(): Either[ErrorResponse, List[BasicResponse]]
   def doPost(dtoRequest: CreateBasic): Either[ErrorResponse, CreateResponse]
   def doPut(dtoRequest: UpdateBasic): Either[ErrorResponse, BasicResponse]
   def doDelete(dtoRequest: DeleteBasic): Either[ErrorResponse, Int]
 }
 
-protected[api] object BasicAdapter extends BasicAdapter {
+private[api] object BasicAdapter extends BasicAdapter {
 
   import BasicProgramAdapter._
   import es.ams.api.views.BasicDTO._

@@ -7,7 +7,7 @@ import es.ams.services.{BasicService, doActionDelete, doActionPost, doActionPut,
 import zio.ZIO
 import zio.console.{Console, putStrLn}
 
-object BasicProgramAdapter {
+private[api] object BasicProgramAdapter {
 
   def programGetList(): ZIO[Console with BasicService, Throwable, List[BasicResponse]] =
     for {

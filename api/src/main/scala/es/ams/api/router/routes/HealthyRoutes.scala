@@ -8,7 +8,7 @@ import org.http4s._
 import org.http4s.HttpRoutes
 import org.http4s.dsl.io._
 
-protected[api] object HealthyRoutes {
+private[api] object HealthyRoutes {
 
   val redinessRoute = HttpRoutes
     .of[IO] { case GET -> Root / "rediness" =>
@@ -22,7 +22,7 @@ protected[api] object HealthyRoutes {
 
 }
 
-protected[api] object MiddlewareHealthyRoutes {
+private[api] object MiddlewareHealthyRoutes {
 
   def myMiddleRedinessRoutes(httpRoutes: HttpRoutes[IO], header: Header): HttpRoutes[IO] = Kleisli {
     (req: Request[IO]) =>

@@ -5,7 +5,7 @@ import org.http4s.Header
 import org.http4s.implicits._
 import org.http4s.server.Router
 
-protected[api] object AppRouter {
+private[api] object AppRouter {
 
   import es.ams.api.router.routes.HealthyRoutes._
   import es.ams.api.router.routes.BasicRoutes._

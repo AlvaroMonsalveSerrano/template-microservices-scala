@@ -3,15 +3,13 @@ package es.ams.api.router.routes
 import cats.effect.IO
 import cats.data.Kleisli
 import es.ams.api.views.BasicDTO.DeleteBasic
-import es.ams.api.views.BasicViews._
 import io.circe.syntax._
 import org.http4s._
 import org.http4s.dsl.io._
 
-protected[api] object BasicRoutes {
+private[api] object BasicRoutes {
 
   import es.ams.api.adapter.BasicAdapter._
-
   import es.ams.api.Utils._
 
   val helloWorldRoute = HttpRoutes
@@ -30,7 +28,7 @@ protected[api] object BasicRoutes {
             loadCreateBasic(elem1 = data.values.get("param1").head, elem2 = data.values.get("param2").head)
           doPost(dtoCreateBasic) match {
             case Left(error) => Ok("System error")
-            case Right(value: CreateResponse) => {
+            case Right(value) => {
               Ok(value.asJson.noSpaces)
             }
           }
@@ -40,17 +38,16 @@ protected[api] object BasicRoutes {
       case req @ GET -> Root / "basic" / "list" => {
         // curl -X GET  http://localhost:8080/basic/list
         getList() match {
-          case Left(error) => Ok("System error")
-          case Right(value: List[BasicResponse]) =>
-            Ok(value.asJson.noSpaces)
+          case Left(error)  => Ok("System error")
+          case Right(value) => Ok(value.asJson.noSpaces)
         }
       }
 
       case req @ DELETE -> Root / "basic" / IntVar(idToDelete) => {
         // curl -X DELETE http://localhost:8080/basic/1
         doDelete(DeleteBasic(id = idToDelete)) match {
-          case Left(error)       => Ok("System error")
-          case Right(value: Int) => Ok(value.asJson.noSpaces)
+          case Left(error)  => Ok("System error")
+          case Right(value) => Ok(value.asJson.noSpaces)
         }
       }
 
@@ -63,8 +60,8 @@ protected[api] object BasicRoutes {
             elem3 = data.values.get("param2").head
           )
           doPut(dtoUpdateBasic) match {
-            case Left(error)                 => Ok("System error")
-            case Right(value: BasicResponse) => Ok(value.asJson.noSpaces)
+            case Left(error)  => Ok("System error")
+            case Right(value) => Ok(value.asJson.noSpaces)
           }
         }
       }

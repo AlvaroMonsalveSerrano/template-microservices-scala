@@ -6,8 +6,6 @@ object Dependencies {
   lazy val http4s_blaze_client = "org.http4s" %% "http4s-blaze-client" % Versions.http4s
   lazy val http4s_dsl          = "org.http4s" %% "http4s-dsl"          % Versions.http4s
   lazy val http4s_circe        = "org.http4s" %% "http4s-circe"        % Versions.http4s
-  lazy val circe_generic       = "io.circe"   %% "circe-generic"       % Versions.circe
-  lazy val circe_literal       = "io.circe"   %% "circe-literal"       % Versions.circe
 
   lazy val zio_core          = "dev.zio" %% "zio"               % Versions.zio
   lazy val zio_interop_cats  = "dev.zio" %% "zio-interop-cats"  % Versions.zio_interop_cats
@@ -40,6 +38,11 @@ object Dependencies {
   lazy val ciris_refined      = "is.cir"     %% "ciris-refined"    % Versions.ciris
   lazy val ciris_squants      = "is.cir"     %% "ciris-squants"    % Versions.ciris
   lazy val ciris_refined_cats = "eu.timepit" %% "refined-cats"     % Versions.refined_cats
+
+  lazy val circe_core    = "io.circe" %% "circe-core"    % Versions.circe
+  lazy val circe_generic = "io.circe" %% "circe-generic" % Versions.circe
+  lazy val circe_literal = "io.circe" %% "circe-literal" % Versions.circe
+  lazy val circe_parser  = "io.circe" %% "circe-parser"  % Versions.circe
 
   lazy val postgres = "org.postgresql" % "postgresql" % "42.2.8"
 

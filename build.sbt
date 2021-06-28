@@ -74,8 +74,10 @@ lazy val apiDependencies = Seq(
   http4s_blaze_client,
   http4s_circe,
   http4s_dsl,
+  circe_core,
   circe_generic,
-  circe_literal
+  circe_literal,
+  circe_parser
 )
 
 lazy val services = (project in file("services"))

@@ -1,7 +1,7 @@
 package es.ams.api.adapter
 
-import es.ams.api.views.BasicViews.ErrorResponse
-import es.ams.services.views.BasicViews.BasicServiceResponse
+import es.ams.api.views.BasicDTO.{CreateBasic, UpdateBasic}
+import es.ams.api.views.BasicViews.{BasicResponse, ErrorResponse}
 
 class AppAdapterTest extends munit.FunSuite {
 
@@ -13,12 +13,13 @@ class AppAdapterTest extends munit.FunSuite {
   }
 
   test("Test AppAdapter: doActionPost function ") {
-    val result = doPost("1", "2")
+    CreateBasic(name = "1", value = "2")
+    val result = doPost(CreateBasic(name = "1", value = "2"))
     assertEquals(result.fold(exp => false, basicResponse => true), true)
   }
 
   test("Test AppAdapter: doActionPut function ") {
-    val result: Either[ErrorResponse, BasicServiceResponse] = doPut(1, "1", "2")
+    val result: Either[ErrorResponse, BasicResponse] = doPut(UpdateBasic(id = 1, name = "1", value = "2"))
     assertEquals(result.fold(exp => false, basicResponse => true), true)
   }
 

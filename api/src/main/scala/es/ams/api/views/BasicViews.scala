@@ -21,4 +21,14 @@ protected[api] object BasicViews {
     implicit val errorResponseEncoder: Encoder[ErrorResponse] =
       Encoder.forProduct2("codError", "message")(data => (data.codError, data.message))
   }
+
+  case class CreateResponse(id: Int)
+  object CreateResponse {
+
+    implicit val createResponseDecoder: Decoder[CreateResponse] =
+      Decoder.forProduct1("id")(CreateResponse.apply)
+
+    implicit val createResponseEncoder: Encoder[CreateResponse] =
+      Encoder.forProduct1("id")(data => (data.id))
+  }
 }

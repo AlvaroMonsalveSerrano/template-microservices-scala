@@ -12,11 +12,13 @@ private[api] object HealthyRoutes {
 
   val redinessRoute = HttpRoutes
     .of[IO] { case GET -> Root / "rediness" =>
+      // curl -X GET http://localhost:8080/rediness
       Ok(s"OK")
     }
 
   val livenessRoute = HttpRoutes
     .of[IO] { case GET -> Root / "liveness" =>
+      // curl -X GET http://localhost:8080/liveness
       Ok(s"OK")
     }
 

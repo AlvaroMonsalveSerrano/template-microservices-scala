@@ -6,6 +6,8 @@ ThisBuild / scalaVersion := "2.13.6"
 ThisBuild / version := "1.0.0-SNAPSHOT"
 ThisBuild / organization := "es.ams"
 ThisBuild / organizationName := "AMS"
+ThisBuild / name := "template-microservices"
+ThisBuild / assemblyJarName := "template-microservices.jar"
 ThisBuild / developers := List(
   Developer(
     id = "",
@@ -14,6 +16,16 @@ ThisBuild / developers := List(
     url = url("http://alvaromonsalve.com")
   )
 )
+ThisBuild / assemblyMergeStrategy := {
+//  case PathList("javax", "servlet", xs @ _*)         => MergeStrategy.first
+  case PathList(ps @ _*) if ps.last endsWith ".html" => MergeStrategy.first
+  case PathList("META-INF", xs @ _*)                 => MergeStrategy.discard
+  case "application.conf"                            => MergeStrategy.concat
+//  case "unwanted.txt"                                => MergeStrategy.discard
+  case x =>
+    val oldStrategy = (ThisBuild / assemblyMergeStrategy).value
+    oldStrategy(x)
+}
 
 lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(scalaTest),
@@ -36,21 +48,14 @@ lazy val commonSettings = Seq(
 )
 
 lazy val root = (project in file("."))
-  .aggregate(api)
-  .aggregate(services)
-  .aggregate(persistence)
-  .aggregate(model)
-  //  .settings(BuildInfoSettings.value)
+  .aggregate(api, services, persistence, model)
+  .dependsOn(api)
   .settings(
     name := "template-microservices",
-    commonSettings
-//    libraryDependencies ++= commonDependencies
-//    resolvers ++= Seq(
-//      "Local Maven Repository" at "file://" + Path.userHome.absolutePath + "/.m2/repository",
-//      Resolver.sonatypeRepo("releases"),
-//      Resolver.sonatypeRepo("snapshots"),
-//      "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
-//    )
+    commonSettings,
+    libraryDependencies ++= commonDependencies,
+    assembly / assemblyJarName := "template-microserives.jar",
+    assembly / mainClass := Some("es.ams.api.app.App")
   )
 
 lazy val commonDependencies = Seq(
@@ -64,6 +69,7 @@ lazy val api = (project in file("api"))
   .dependsOn(services)
   .settings(
     name := "api",
+    run / mainClass := Some("es.ams.api.app.App"),
     commonSettings,
     libraryDependencies ++=
       apiDependencies ++ commonDependencies
@@ -84,6 +90,7 @@ lazy val services = (project in file("services"))
   .dependsOn(persistence)
   .settings(
     name := "services",
+    assembly / assemblyJarName := "services.jar",
     commonSettings,
     libraryDependencies ++= serviceDependencies ++ commonDependencies
   )
@@ -101,6 +108,7 @@ lazy val persistence = (project in file("persistence"))
   .dependsOn(model)
   .settings(
     name := "persistence",
+    assembly / assemblyJarName := "persistence.jar",
     commonSettings,
     unmanagedClasspath in Compile += baseDirectory.value / "src" / "main" / "resources",
     // include the macro classes and resources in the main jar
@@ -122,6 +130,7 @@ lazy val persistenceDependencies = Seq(
 lazy val model = (project in file("model"))
   .settings(
     name := "model",
+    assembly / assemblyJarName := "model.jar",
     commonSettings,
     libraryDependencies ++=
       serviceDependencies ++ Seq(
@@ -132,11 +141,3 @@ lazy val model = (project in file("model"))
 // Add libraries to process model.
 lazy val modelDependencies = Seq(
 )
-
-lazy val assemblySettings = ThisBuild / assemblyMergeStrategy := {
-  case "module-info.class" => MergeStrategy.last
-  case "application.conf"  => MergeStrategy.concat
-  case x =>
-    val oldStrategy = (assemblyMergeStrategy in assembly).value
-    oldStrategy(x)
-}

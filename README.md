@@ -21,3 +21,46 @@ insert into base (length_rec, width_rec) values (22, 22);
 SELECT r.* FROM base r;
 
 ```
+
+## 2.- Ensamblar el proyecto
+
+```
+sbt assembly
+```
+
+## 3.- Arrancar el proyecto desde línea de comando
+```
+scala ./target/scala-2.13/template-microserives.jar es.ams.api.app.App
+```
+
+## 4.- Pruebas
+
++ Rediness
+```  
+curl -X GET http://localhost:8080/rediness
+```
+
++ Liveness
+```   
+curl -X GET http://localhost:8080/liveness
+``` 
+
++ Inserción
+```
+curl -X POST -d "param1=3&param2=3" http://localhost:8080/basic
+```
+
++ Listar
+```
+curl -X GET  http://localhost:8080/basic/list
+```
+
++ Borrado
+```
+curl -X DELETE http://localhost:8080/basic/1
+```
+
++ Modificación
+```
+curl -X PUT -d "id=4&param1=44&param2=44" http://localhost:8080/basic
+```

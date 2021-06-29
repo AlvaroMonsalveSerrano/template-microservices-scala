@@ -64,3 +64,7 @@ curl -X DELETE http://localhost:8080/basic/1
 ```
 curl -X PUT -d "id=4&param1=44&param2=44" http://localhost:8080/basic
 ```
+
+## Referencias
+
+[Ejemplo de Dockerfile](https://gist.github.com/gyndav/c8d65b59793566ee73ed2aa25aa10497)

@@ -29,9 +29,18 @@ sbt assembly
 ```
 
 ## 3.- Arrancar el proyecto desde línea de comando
+
+Las variables de entorno con el contenedor son las siguientes:
++ POSTGRESQL_HOST=172.17.0.1;POSTGRESQL_PORT=5436;POSTGRESQL_DATABASE=prueba;POSTGRESQL_USER=postgres;POSTGRESQL_PWD=password
+
+Las variables de entorno desde la línea de comando son las siguientes:
++ POSTGRESQL_HOST=localhost;POSTGRESQL_PORT=5436;POSTGRESQL_DATABASE=prueba;POSTGRESQL_USER=postgres;POSTGRESQL_PWD=password
+
 ```
 scala ./target/scala-2.13/template-microserives.jar es.ams.api.app.App
 ```
+
+
 
 ## 4.- Pruebas
 

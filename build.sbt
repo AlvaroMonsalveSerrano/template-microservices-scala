@@ -62,7 +62,8 @@ lazy val commonDependencies = Seq(
   scalaTest,
   scalacheck,
   munit,
-  munit_cats_effect_2
+  munit_cats_effect_2,
+  ciris_ciris
 )
 
 lazy val api = (project in file("api"))

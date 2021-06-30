@@ -24,7 +24,7 @@ object App extends IOApp {
 
   def run(args: List[String]): IO[ExitCode] =
     BlazeServerBuilder[IO](global)
-      .bindHttp(7070, "localhost")
+      .bindHttp(8080, "0.0.0.0")
       .withHttpApp(AppRouter.healthyRouter)
       .serve
       .compile

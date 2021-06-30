@@ -8,7 +8,7 @@ build: assembly
 	docker image build -t alvaroms/template-microservices:v1 .
 
 run:
-	docker container run -d --name ms-scala -p 8082:7070 alvaroms/template-microservices:v1
+	docker container run -d -p 8082:8080 --name ms-scala  alvaroms/template-microservices:v1
 
 stop:
 	docker container stop ms-scala

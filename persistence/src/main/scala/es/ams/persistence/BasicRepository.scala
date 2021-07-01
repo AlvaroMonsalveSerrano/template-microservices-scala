@@ -48,6 +48,6 @@ class BasicRepository(configPrefix: String)(implicit ec: ExecutionContext)
 
 }
 object BasicRepository {
-  def apply()(implicit ec: ExecutionContext)                     = new BasicRepository("asynpostgres")
+  def apply()(implicit ec: ExecutionContext)                     = new BasicRepository("")
   def apply(configPrefix: String)(implicit ec: ExecutionContext) = new BasicRepository(configPrefix)
 }

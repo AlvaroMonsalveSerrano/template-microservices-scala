@@ -3,6 +3,7 @@ package es.ams.api.adapter
 import es.ams.api.views.BasicDTO.{CreateBasic, UpdateBasic}
 import es.ams.api.views.BasicViews.{BasicResponse, ErrorResponse}
 
+@munit.IgnoreSuite
 class AppAdapterTest extends munit.FunSuite {
 
   import es.ams.api.adapter.BasicAdapter._

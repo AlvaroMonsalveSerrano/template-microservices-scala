@@ -37,7 +37,14 @@ Las variables de entorno desde la línea de comando son las siguientes:
 + POSTGRESQL_HOST=localhost;POSTGRESQL_PORT=5436;POSTGRESQL_DATABASE=prueba;POSTGRESQL_USER=postgres;POSTGRESQL_PWD=password
 
 ```
+export POSTGRESQL_HOST=localhost \
+export POSTGRESQL_PORT=5436 \
+export POSTGRESQL_DATABASE=prueba \
+export POSTGRESQL_USER=postgres \
+export POSTGRESQL_PWD=password \
 scala ./target/scala-2.13/template-microserives.jar es.ams.api.app.App
+
+POSTGRESQL_HOST=localhost POSTGRESQL_PORT=5436 POSTGRESQL_DATABASE=prueba POSTGRESQL_USER=postgres POSTGRESQL_PWD=password scala ./target/scala-2.13/template-microserives.jar es.ams.api.app.App
 ```
 
 

@@ -16,30 +16,25 @@ import scala.concurrent.ExecutionContext
 protected[persistence] abstract class BaseAsynRepository(configPrefix: String)(implicit
     executionContext: ExecutionContext
 ) {
-  private val urlPostgresql = LoadEnvironmentDatabase.apply().loadURIPostgresql()
-  private val config: Config = {
-    ConfigFactory
-      .empty()
-      .withValue(
-        "url",
-        ConfigValueFactory.fromAnyRef(urlPostgresql)
-      )
-  }
-
-//  protected val ctx = new PostgresAsyncContext(SnakeCase, configPrefix) with BasicQueries with OtherEntityQueries
-  protected val ctx = new PostgresAsyncContext(SnakeCase, config) with BasicQueries with OtherEntityQueries
+  protected val ctx = LoadEnvironmentDatabase.apply().loadPostgresqlContext(configPrefix)
 
 }
 
 private[persistence] class LoadEnvironmentDatabase()(implicit executionContext: ExecutionContext) {
 
+  private val HOST     = "POSTGRESQL_HOST"
+  private val PORT     = "POSTGRESQL_PORT"
+  private val DATABASE = "POSTGRESQL_DATABASE"
+  private val USER     = "POSTGRESQL_USER"
+  private val PWD      = "POSTGRESQL_PWD"
+
   private implicit val cs = IO.contextShift(executionContext)
 
-  private lazy val host: ConfigValue[String]     = env("POSTGRESQL_HOST").or(prop("localhost")).as[String]
-  private lazy val port: ConfigValue[String]     = env("POSTGRESQL_PORT").or(prop("port")).as[String]
-  private lazy val database: ConfigValue[String] = env("POSTGRESQL_DATABASE").or(prop("database")).as[String]
-  private lazy val user: ConfigValue[String]     = env("POSTGRESQL_USER").or(prop("user")).as[String]
-  private lazy val password: ConfigValue[String] = env("POSTGRESQL_PWD").or(prop("pwd")).as[String]
+  private lazy val host: ConfigValue[String]     = env(HOST).or(prop("postgresql.host")).as[String]
+  private lazy val port: ConfigValue[String]     = env(PORT).or(prop("postgresql.port")).as[String]
+  private lazy val database: ConfigValue[String] = env(DATABASE).or(prop("postgresql.database")).as[String]
+  private lazy val user: ConfigValue[String]     = env(USER).or(prop("postgresql.user")).as[String]
+  private lazy val password: ConfigValue[String] = env(PWD).or(prop("postgresql.pwd")).as[String]
 
   def loadURIPostgresql(): String = {
     "postgresql://" +
@@ -48,6 +43,26 @@ private[persistence] class LoadEnvironmentDatabase()(implicit executionContext: 
       database.load[IO].unsafeRunSync() + "?user=" +
       user.load[IO].unsafeRunSync() + "&password=" +
       password.load[IO].unsafeRunSync()
+  }
+
+  def loadPostgresqlContext(configPrefix: String) = configPrefix match {
+    case "" => {
+      // App
+      val urlPostgresql = loadURIPostgresql()
+      val config: Config = {
+        ConfigFactory
+          .empty()
+          .withValue(
+            "url",
+            ConfigValueFactory.fromAnyRef(urlPostgresql)
+          )
+      }
+      new PostgresAsyncContext(SnakeCase, config) with BasicQueries with OtherEntityQueries
+
+    }
+    case _ =>
+      // test
+      new PostgresAsyncContext(SnakeCase, configPrefix) with BasicQueries with OtherEntityQueries //
   }
 }
 object LoadEnvironmentDatabase {

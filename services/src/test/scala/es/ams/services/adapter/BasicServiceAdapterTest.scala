@@ -35,9 +35,9 @@ object BasicServiceAdapterTest extends DefaultRunnableSpec {
 
   val individuall = suite("individually")(
     suite("Basic Service Adapter getListEntity")(
-      testGetListEntity,
-      testDoActionPost,
-      testDoActionPut
+//      testGetListEntity, // TODO
+//      testDoActionPost,
+//      testDoActionPut
     ).provideCustomLayerShared(BasicService.live)
   )
 

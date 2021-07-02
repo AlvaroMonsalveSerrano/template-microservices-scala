@@ -48,4 +48,14 @@ object Dependencies {
 
   lazy val mysql_connector_java = "mysql" % "mysql-connector-java" % Versions.mysql_connector
 
+  lazy val testcontainers_scalatest =
+    "com.dimafeng" %% "testcontainers-scala-scalatest" % Versions.testcontainers % "test"
+  lazy val testcontainers_munit =
+    "com.dimafeng" %% "testcontainers-scala-munit" % Versions.testcontainers % "test"
+  lazy val testcontainers_postgresql =
+    "com.dimafeng" %% "testcontainers-scala-postgresql" % Versions.testcontainers % "test"
+
+  lazy val testcontainers_scala_nginx =
+    "com.dimafeng" %% "testcontainers-scala-nginx" % Versions.testcontainers % "test"
+
 }

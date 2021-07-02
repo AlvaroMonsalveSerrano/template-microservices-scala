@@ -125,6 +125,9 @@ lazy val persistenceDependencies = Seq(
   quillJdbc,
   quillH2,
   quillPostgres,
+  testcontainers_scalatest,
+  testcontainers_munit,
+  testcontainers_postgresql,
   postgres
 )
 

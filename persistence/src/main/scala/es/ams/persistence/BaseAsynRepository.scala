@@ -13,10 +13,13 @@ import scala.concurrent.ExecutionContext
   *
   * @param configPrefix Context name
   */
-protected[persistence] abstract class BaseAsynRepository(configPrefix: String)(implicit
+protected[persistence] abstract class BaseAsynRepository(
+    configPrefix: String,
+    urlDatabase: Option[String] = None
+)(implicit
     executionContext: ExecutionContext
 ) {
-  protected val ctx = LoadEnvironmentDatabase.apply().loadPostgresqlContext(configPrefix)
+  protected val ctx = LoadEnvironmentDatabase.apply().loadPostgresqlContext(configPrefix, urlDatabase)
 
 }
 
@@ -45,20 +48,36 @@ private[persistence] class LoadEnvironmentDatabase()(implicit executionContext: 
       password.load[IO].unsafeRunSync()
   }
 
-  def loadPostgresqlContext(configPrefix: String) = configPrefix match {
+  def loadPostgresqlContext(configPrefix: String, urlDatabase: Option[String] = None) = configPrefix match {
     case "" => {
-      // App
-      val urlPostgresql = loadURIPostgresql()
-      val config: Config = {
-        ConfigFactory
-          .empty()
-          .withValue(
-            "url",
-            ConfigValueFactory.fromAnyRef(urlPostgresql)
-          )
-      }
-      new PostgresAsyncContext(SnakeCase, config) with BasicQueries with OtherEntityQueries
+      urlDatabase match {
+        case None => {
+          // App
+          val urlPostgresql = loadURIPostgresql()
+          val config: Config = {
+            ConfigFactory
+              .empty()
+              .withValue(
+                "url",
+                ConfigValueFactory.fromAnyRef(urlPostgresql)
+              )
+          }
+          new PostgresAsyncContext(SnakeCase, config) with BasicQueries with OtherEntityQueries
 
+        }
+        case Some(valueUrl) => {
+          val config: Config = {
+            ConfigFactory
+              .empty()
+              .withValue(
+                "url",
+                ConfigValueFactory.fromAnyRef(urlDatabase.get)
+              )
+          }
+          new PostgresAsyncContext(SnakeCase, config) with BasicQueries with OtherEntityQueries
+
+        }
+      }
     }
     case _ =>
       // test

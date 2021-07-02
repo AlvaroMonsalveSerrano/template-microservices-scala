@@ -7,8 +7,11 @@ import scala.concurrent.{ExecutionContext, Future}
   * @param configPrefix
   * @param ec
   */
-class BasicRepository(configPrefix: String)(implicit ec: ExecutionContext)
-    extends BaseAsynRepository(configPrefix)
+class BasicRepository(
+    configPrefix: String = "",
+    urlDatabase: Option[String] = None
+)(implicit ec: ExecutionContext)
+    extends BaseAsynRepository(configPrefix, urlDatabase)
     with IBasic {
 
   import ctx._
@@ -48,6 +51,7 @@ class BasicRepository(configPrefix: String)(implicit ec: ExecutionContext)
 
 }
 object BasicRepository {
-  def apply()(implicit ec: ExecutionContext)                     = new BasicRepository("")
-  def apply(configPrefix: String)(implicit ec: ExecutionContext) = new BasicRepository(configPrefix)
+  def apply()(implicit ec: ExecutionContext)                            = new BasicRepository("")
+  def apply(configPrefix: String)(implicit ec: ExecutionContext)        = new BasicRepository(configPrefix)
+  def apply(urlDatabase: Option[String])(implicit ec: ExecutionContext) = new BasicRepository("", urlDatabase)
 }

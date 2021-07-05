@@ -15,8 +15,7 @@ import java.sql.DriverManager
 
 class BasicRepositoryTest extends AnyFlatSpec with ForAllTestContainer {
 
-//  private val logger = LoggerFactory.getLogger(this.getClass)
-
+  // TODO Refactor
   val initScript =
     """
       | CREATE TABLE IF NOT EXISTS Base (
@@ -41,6 +40,7 @@ class BasicRepositoryTest extends AnyFlatSpec with ForAllTestContainer {
 
   "PostgreSQL queries persistence" should "Select all with class" in {
 
+    // TODO Refactor
     Class.forName(container.driverClassName)
     val conn: Connection = DriverManager
       .getConnection(container.jdbcUrl, container.username, container.password)
@@ -55,7 +55,15 @@ class BasicRepositoryTest extends AnyFlatSpec with ForAllTestContainer {
   }
 
   it should "Select all with object" in {
-    val basicRepository    = BasicRepository("asynpostgres")
+
+    // TODO Refactor
+    Class.forName(container.driverClassName)
+    val conn: Connection = DriverManager
+      .getConnection(container.jdbcUrl, container.username, container.password)
+    conn.createStatement().execute(initScript)
+
+    val urlTest            = s"${container.jdbcUrl}&user=${container.username}&password=${container.password}"
+    val basicRepository    = new BasicRepository("", Some(urlTest))
     val result: List[Base] = Await.result(basicRepository.findAll(), Duration.Inf)
 
     assert(result.size > 0)

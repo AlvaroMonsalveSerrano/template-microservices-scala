@@ -9,6 +9,17 @@ object BasicServiceAdapterTest extends DefaultRunnableSpec {
 
   import BasicServiceAdapter._
 
+  val initScript =
+    """
+      | CREATE TABLE IF NOT EXISTS Base (
+      |	  id_rec serial PRIMARY KEY,
+      |	  length_rec int,
+      |	  width_rec int
+      |);
+      |insert into base (length_rec, width_rec) values (11, 11);
+      |insert into base (length_rec, width_rec) values (22, 22);
+      |""".stripMargin
+
   def testGetListEntity = testM("getListEntity function") {
     for {
       lstEntity <- getListEntity()
@@ -33,13 +44,16 @@ object BasicServiceAdapterTest extends DefaultRunnableSpec {
     }
   }
 
-  val individuall = suite("individually")(
+  val individuall = suite("individually") {
+    val utilTest = UtilTest(initScript)
+    utilTest.run()
+
     suite("Basic Service Adapter getListEntity")(
-//      testGetListEntity, // TODO
-//      testDoActionPost,
-//      testDoActionPut
+//      testGetListEntity // TODO with testContainer library
+      //      testDoActionPost,
+      //      testDoActionPut
     ).provideCustomLayerShared(BasicService.live)
-  )
+  }
 
   override def spec: ZSpec[_root_.zio.test.environment.TestEnvironment, Any] = {
     individuall

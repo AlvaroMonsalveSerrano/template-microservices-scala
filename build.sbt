@@ -102,7 +102,11 @@ lazy val serviceDependencies = Seq(
   zio_streams,
   zio_test,
   zio_test_sbt,
-  zio_test_magnolia
+  zio_test_magnolia,
+  testcontainers_scalatest,
+  testcontainers_munit,
+  testcontainers_postgresql,
+  postgres
 )
 
 lazy val persistence = (project in file("persistence"))

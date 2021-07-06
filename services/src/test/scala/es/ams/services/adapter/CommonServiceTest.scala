@@ -2,10 +2,7 @@ package es.ams.services.adapter
 
 import zio.test._
 import Assertion._
-import com.dimafeng.testcontainers.PostgreSQLContainer
 import es.ams.services._
-
-import java.sql.{Connection, DriverManager}
 
 object CommonServiceTest extends DefaultRunnableSpec {
 
@@ -24,13 +21,6 @@ object CommonServiceTest extends DefaultRunnableSpec {
       |insert into base (length_rec, width_rec) values (22, 22);
       |""".stripMargin
 
-  val container: PostgreSQLContainer = {
-    val psql: PostgreSQLContainer = new PostgreSQLContainer()
-    psql.start()
-    psql.container.withInitScript(initScript)
-    psql
-  }
-
   def testDoSomething = testM("BusinessService doSomething") {
     val paramTest = "ParamTest"
     for {
@@ -44,24 +34,12 @@ object CommonServiceTest extends DefaultRunnableSpec {
   }
 
   val individuall = suite("individually") {
-    // TODO Refactor
-    val container: PostgreSQLContainer = {
-      val psql: PostgreSQLContainer = new PostgreSQLContainer()
-      psql.start()
-      psql.container.withInitScript(initScript)
-      psql
-    }
-
-    // TODO Refactor
-    Class.forName(container.driverClassName)
-    val conn: Connection = DriverManager
-      .getConnection(container.jdbcUrl, container.username, container.password)
-    conn.createStatement().execute(initScript)
-    val urlTest = s"${container.jdbcUrl}&user=${container.username}&password=${container.password}"
+    val utilTest = UtilTest(initScript)
+    utilTest.run()
 
     suite("BusinessService")(
       testDoSomething
-    ).provideCustomLayerShared(BusinessService.live(urlTest) ++ BasicService.live)
+    ).provideCustomLayerShared(BusinessService.live(utilTest.getUriToDatabase()) ++ BasicService.live)
   }
 
   override def spec: ZSpec[_root_.zio.test.environment.TestEnvironment, Any] = {

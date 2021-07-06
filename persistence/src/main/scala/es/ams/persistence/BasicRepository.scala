@@ -51,7 +51,10 @@ class BasicRepository(
 
 }
 object BasicRepository {
-  def apply()(implicit ec: ExecutionContext)                            = new BasicRepository("")
-  def apply(configPrefix: String)(implicit ec: ExecutionContext)        = new BasicRepository(configPrefix)
-  def apply(urlDatabase: Option[String])(implicit ec: ExecutionContext) = new BasicRepository("", urlDatabase)
+  def apply()(implicit ec: ExecutionContext)                     = new BasicRepository("")
+  def apply(configPrefix: String)(implicit ec: ExecutionContext) = new BasicRepository(configPrefix)
+  def apply(urlDatabase: Option[String])(implicit ec: ExecutionContext) = urlDatabase match {
+    case Some(value) => new BasicRepository("", urlDatabase)
+    case None        => new BasicRepository("")
+  }
 }

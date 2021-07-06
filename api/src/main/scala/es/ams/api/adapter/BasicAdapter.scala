@@ -19,7 +19,7 @@ private[api] object BasicAdapter extends BasicAdapter {
   import es.ams.api.views.BasicDTO._
 
   def getList(): Either[ErrorResponse, List[BasicResponse]] = {
-    Runtime.default.unsafeRunSync(programGetList().provideLayer(serviceBasicService)) match {
+    Runtime.default.unsafeRunSync(programGetList().provideLayer(serviceBasicService())) match {
       case Success(value) => Right(value)
       case Failure(ex) => {
         println(s"EXCEPTION->${ex.prettyPrint}") // TODO to file log
@@ -29,7 +29,7 @@ private[api] object BasicAdapter extends BasicAdapter {
   }
 
   def doPost(dtoRequest: CreateBasic): Either[ErrorResponse, CreateResponse] = {
-    Runtime.default.unsafeRunSync(programDoPost(dtoRequest).provideLayer(serviceBasicService)) match {
+    Runtime.default.unsafeRunSync(programDoPost(dtoRequest).provideLayer(serviceBasicService())) match {
       case Success(value) => Right(CreateResponse(id = value))
       case Failure(ex) => {
         println(s"EXCEPTION->${ex.prettyPrint}") // TODO to file log
@@ -39,7 +39,7 @@ private[api] object BasicAdapter extends BasicAdapter {
   }
 
   def doPut(dtoRequest: UpdateBasic): Either[ErrorResponse, BasicResponse] = {
-    Runtime.default.unsafeRunSync(programDoPut(dtoRequest).provideLayer(serviceBasicService)) match {
+    Runtime.default.unsafeRunSync(programDoPut(dtoRequest).provideLayer(serviceBasicService())) match {
       case Success(value) => Right(value)
       case Failure(ex) => {
         println(s"EXCEPTION->${ex.prettyPrint}") // TODO to file log
@@ -49,7 +49,7 @@ private[api] object BasicAdapter extends BasicAdapter {
   }
 
   def doDelete(dtoRequest: DeleteBasic): Either[ErrorResponse, Int] = {
-    Runtime.default.unsafeRunSync(programDoDelete(dtoRequest).provideLayer(serviceBasicService)) match {
+    Runtime.default.unsafeRunSync(programDoDelete(dtoRequest).provideLayer(serviceBasicService())) match {
       case Success(value) => Right(value)
       case Failure(ex) => {
         println(s"EXCEPTION->${ex.prettyPrint}") // TODO to file log

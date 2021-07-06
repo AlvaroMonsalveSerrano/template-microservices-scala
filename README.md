@@ -1,9 +1,41 @@
 # TEMPLATE-MICROSERVICES
 
-El objetivo del proyecto es definir una plantilla de un proyecto de un microservicio
+El objetivo del proyecto es definir un esquema de un proyecto de un microservicio
 en Scala utilizando las librería Http4s, ZIO y Quill.
 
-## 1.- Structure database 
+## 1. Vista arquitectónicas y de base de datos
+
+### 1.1. Vista arquitectónica de las capas
+
+
+#### 1.1.1. Capa api
+
+![Vista estática de la capa api](./doc/template-microservices-api.jpg)
+
+
+#### 1.1.2. Capa de services
+
+![Vista estática de la capa servicios](./doc/template-microservices-services.jpg)
+
+
+#### 1.1.3. Capa de persistencia
+
+![Vista estática de la capa de persistencia](./doc/template-microservices-persistence.jpg)
+
+
+#### 1.1.4. Capa del modelo
+
+![Vista estática de la capa de modelo](./doc/template-microservices-model.jpg)
+
+
+#### 1.1.5. Diagrama de componenetes
+
+![diagrama de componenetes](./doc/template-microservices-componentes.jpg)
+
+
+
+
+### 1.2 Estructura de basae ded datos 
 
 La base de datos utilizada es una base de daatos PostgreSQL.
 
@@ -22,13 +54,68 @@ SELECT r.* FROM base r;
 
 ```
 
-## 2.- Ensamblar el proyecto
+## 2. Herramientas de gestión del proyecto.
+
+Se dispone de un fichero Makefile con los siguientes comandos:
+
++ **make test**
 
 ```
-sbt assembly
+sbt test
 ```
 
-## 3.- Arrancar el proyecto desde línea de comando
++ **make assembly**
+
+```
+sbt clean compile assembly
+```
+
+
++ **make build**
+
+```
+assembly
+docker image build -t alvaroms/template-microservices:v1 .
+```
+
++ **make run**
+
+```
+docker container run -d -p 8082:8080 --name ms-scala  alvaroms/template-microservices:v1
+```
+
++ **make stop**
+
+```
+docker container stop ms-scala
+```
+
++ **make rm**
+
+```
+stop
+docker container rm ms-scala
+```
+
++ **make logs**
+
+```
+docker container logs ms-scala
+```
+
++ **make exec**
+
+```
+docker container exec -it ms-scala /bin/bash
+```
+
++ **make all**
+
+```
+build run
+```
+
+## 3. Arrancar el proyecto desde línea de comando
 
 Las variables de entorno con el contenedor son las siguientes:
 + POSTGRESQL_HOST=172.17.0.1;POSTGRESQL_PORT=5436;POSTGRESQL_DATABASE=prueba;POSTGRESQL_USER=postgres;POSTGRESQL_PWD=password
@@ -49,7 +136,7 @@ POSTGRESQL_HOST=localhost POSTGRESQL_PORT=5436 POSTGRESQL_DATABASE=prueba POSTGR
 
 
 
-## 4.- Pruebas
+## 4. Pruebas
 
 + Rediness
 ```  

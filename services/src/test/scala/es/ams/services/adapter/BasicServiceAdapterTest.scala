@@ -49,10 +49,11 @@ object BasicServiceAdapterTest extends DefaultRunnableSpec {
     utilTest.run()
 
     suite("Basic Service Adapter getListEntity")(
-//      testGetListEntity // TODO with testContainer library
-      //      testDoActionPost,
-      //      testDoActionPut
-    ).provideCustomLayerShared(BasicService.live)
+      testGetListEntity,
+      testDoActionPost,
+      testDoActionPut
+    ).provideCustomLayerShared(BasicService.live(Some(utilTest.getUriToDatabase())))
+
   }
 
   override def spec: ZSpec[_root_.zio.test.environment.TestEnvironment, Any] = {

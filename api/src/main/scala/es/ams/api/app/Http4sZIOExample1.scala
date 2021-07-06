@@ -17,7 +17,7 @@ object Http4sZIOExample1 extends App {
 
   private val helloWorlService = HttpRoutes
     .of[Task] { case GET -> Root / "hello" =>
-      val result = Runtime.default.unsafeRun(getListEntity().provideLayer(serviceBasicService))
+      val result = Runtime.default.unsafeRun(getListEntity().provideLayer(serviceBasicService()))
       println(s"result=${result}")
       Ok(s"Hello, Al result=${result}")
     }

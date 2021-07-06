@@ -30,7 +30,7 @@ protected[persistence] trait BasicQueries extends IOMonad {
     }
   }
 
-  def updateBase(entity: Base) = {
+  def updateBase(entity: Base): Quoted[Update[Base]] = {
     quote {
       query[Base]
         .filter(e => e.id_rec == lift(entity.id_rec))

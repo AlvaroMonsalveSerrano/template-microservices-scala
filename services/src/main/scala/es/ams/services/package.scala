@@ -24,7 +24,8 @@ package object services {
 
   def doActionDelete(id: Int): ZIO[BasicService, Throwable, Int] = ZIO.accessM(_.get.doDelete(id))
 
-  val serviceBasicService: ZLayer[Any, Nothing, Console with BasicService] = Console.live ++ BasicService.live
+  def serviceBasicService(urlConnection: Option[String] = None): ZLayer[Any, Nothing, Console with BasicService] =
+    Console.live ++ BasicService.live(urlConnection)
 
   // BusinessService
   type BusinessService = Has[BusinessService.Service]

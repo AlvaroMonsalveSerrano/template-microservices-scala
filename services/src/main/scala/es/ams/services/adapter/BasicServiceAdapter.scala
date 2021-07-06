@@ -23,7 +23,7 @@ object BasicServiceAdapter {
     }
 
     // Service implementation
-    val live: ZLayer[Any, Nothing, BasicService] = ZLayer.succeed(
+    def live(urlConnection: Option[String] = None): ZLayer[Any, Nothing, BasicService] = ZLayer.succeed(
       new Service {
 
         import es.ams.model._
@@ -32,14 +32,16 @@ object BasicServiceAdapter {
           def toListBasicResponse(list: List[Base]): List[BasicServiceResponse] =
             list.map(elem => BasicServiceResponse(name = elem.length_rec.toString, value = elem.width_rec.toString))
 
-          ZIO.fromFuture(implicit ec => BasicRepository.apply().findAll().map(elem => toListBasicResponse(elem)))
+          ZIO.fromFuture(implicit ec =>
+            BasicRepository.apply(urlConnection).findAll().map(elem => toListBasicResponse(elem))
+          )
         }
 
         override def doActionPost(request: BasicServiceRequest): Task[Int] = {
           ZIO
             .fromFuture(implicit ec =>
               BasicRepository
-                .apply()
+                .apply(urlConnection)
                 .insert(Base(id_rec = 0, length_rec = request.name.toInt, width_rec = request.value.toInt))
             )
             .catchAll(exception =>
@@ -57,7 +59,7 @@ object BasicServiceAdapter {
           Task
             .fromFuture(implicit ec =>
               BasicRepository
-                .apply()
+                .apply(urlConnection)
                 .update(Base(id_rec = request.id.get, length_rec = request.name.toInt, width_rec = request.value.toInt))
                 .map(elem => BasicServiceResponse(name = elem.length_rec.toString, value = elem.width_rec.toString))
             )
@@ -74,7 +76,7 @@ object BasicServiceAdapter {
 
         override def doDelete(id: Int): Task[Int] = {
           ZIO
-            .fromFuture(implicit ec => BasicRepository.apply().delete(id))
+            .fromFuture(implicit ec => BasicRepository.apply(urlConnection).delete(id))
             .catchAll(exception =>
               ZIO.fail(
                 new ServiceBasicException(

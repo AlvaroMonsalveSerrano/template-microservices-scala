@@ -39,7 +39,9 @@ object CommonServiceTest extends DefaultRunnableSpec {
 
     suite("BusinessService")(
       testDoSomething
-    ).provideCustomLayerShared(BusinessService.live(utilTest.getUriToDatabase()) ++ BasicService.live)
+    ).provideCustomLayerShared(
+      BusinessService.live(utilTest.getUriToDatabase()) ++ BasicService.live(Some(utilTest.getUriToDatabase()))
+    )
   }
 
   override def spec: ZSpec[_root_.zio.test.environment.TestEnvironment, Any] = {

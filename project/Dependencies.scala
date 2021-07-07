@@ -2,6 +2,10 @@ import sbt._
 
 object Dependencies {
 
+  lazy val scala_logging    = "com.typesafe.scala-logging" %% "scala-logging"    % "3.9.2"
+  lazy val slf4j_api        = "org.slf4j"                   % "slf4j-api"        % "1.7.30"
+  lazy val log4j_slf4j_impl = "org.apache.logging.log4j"    % "log4j-slf4j-impl" % "2.13.3"
+
   lazy val http4s_blaze_server = "org.http4s" %% "http4s-blaze-server" % Versions.http4s
   lazy val http4s_blaze_client = "org.http4s" %% "http4s-blaze-client" % Versions.http4s
   lazy val http4s_dsl          = "org.http4s" %% "http4s-dsl"          % Versions.http4s

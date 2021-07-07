@@ -7,10 +7,12 @@ import io.circe.syntax._
 import org.http4s._
 import org.http4s.dsl.io._
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 private[api] object BasicRoutes {
 
   import es.ams.api.adapter.BasicAdapter._
-  import es.ams.api.Utils._
+  import es.ams.api.Utils
 
   val helloWorldRoute = HttpRoutes
     .of[IO] { case GET -> Root / "hello" / name =>
@@ -25,7 +27,9 @@ private[api] object BasicRoutes {
         // curl -X POST -d "param1=3&param2=3" http://localhost:8080/basic
         req.decode[UrlForm] { data =>
           val dtoCreateBasic =
-            loadCreateBasic(elem1 = data.values.get("param1").head, elem2 = data.values.get("param2").head)
+            Utils
+              .apply()
+              .loadCreateBasic(elem1 = data.values.get("param1").head, elem2 = data.values.get("param2").head)
           doPost(dtoCreateBasic) match {
             case Left(error) => Ok("System error")
             case Right(value) => {
@@ -54,11 +58,13 @@ private[api] object BasicRoutes {
       case req @ PUT -> Root / "basic" => {
         // curl -X PUT -d "id=4&param1=44&param2=44" http://localhost:8080/basic
         req.decode[UrlForm] { data =>
-          val dtoUpdateBasic = loadUpdateBasic(
-            elem1 = data.values.get("id").get,
-            elem2 = data.values.get("param1").head,
-            elem3 = data.values.get("param2").head
-          )
+          val dtoUpdateBasic = Utils
+            .apply()
+            .loadUpdateBasic(
+              elem1 = data.values.get("id").get,
+              elem2 = data.values.get("param1").head,
+              elem3 = data.values.get("param2").head
+            )
           doPut(dtoUpdateBasic) match {
             case Left(error)  => Ok("System error")
             case Right(value) => Ok(value.asJson.noSpaces)

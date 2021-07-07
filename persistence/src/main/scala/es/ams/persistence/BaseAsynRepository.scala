@@ -7,6 +7,7 @@ import io.getquill.{PostgresAsyncContext, SnakeCase}
 import com.typesafe.config.{Config, ConfigFactory, ConfigValueFactory}
 
 import scala.concurrent.ExecutionContext
+import com.typesafe.scalalogging._
 
 /** Definition of the base class of the repository. It has a reference to the Quill context which must implement those
   * operations for the different domain entities.
@@ -25,6 +26,7 @@ protected[persistence] abstract class BaseAsynRepository(
 
 private[persistence] class LoadEnvironmentDatabase()(implicit executionContext: ExecutionContext) {
 
+  private val logger   = Logger[LoadEnvironmentDatabase]
   private val HOST     = "POSTGRESQL_HOST"
   private val PORT     = "POSTGRESQL_PORT"
   private val DATABASE = "POSTGRESQL_DATABASE"
@@ -54,6 +56,7 @@ private[persistence] class LoadEnvironmentDatabase()(implicit executionContext: 
         case None => {
           // App
           val urlPostgresql = loadURIPostgresql()
+          logger.info(s"urlPostgresql=${urlPostgresql}")
           val config: Config = {
             ConfigFactory
               .empty()

@@ -59,6 +59,9 @@ lazy val root = (project in file("."))
   )
 
 lazy val commonDependencies = Seq(
+  scala_logging,
+  slf4j_api,
+  log4j_slf4j_impl,
   scalaTest,
   scalacheck,
   munit,

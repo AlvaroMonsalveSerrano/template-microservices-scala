@@ -7,6 +7,8 @@ import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 
+import com.typesafe.scalalogging._
+
 object BusinessServiceAdapter {
 
   import es.ams.services.BusinessService
@@ -22,16 +24,20 @@ object BusinessServiceAdapter {
 
     class ServiceImpl(private val urlTest: String) extends Service {
 
+      private val logger = Logger[ServiceImpl]
+
       val basicRepository = new BasicRepository("", Some(urlTest))
 
       override def doSomething1(param1: String): UIO[String] = UIO.succeed {
-        println(s"[BusinessService] URL database $urlTest")
-        println(s"[BusinessService] Hacemos algo con $param1")
+        logger.info(s"[BusinessService.ServiceImpl()] doSomething1. URL=$urlTest - param=$param1") // 400
         param1
       }
 
       override def findAll(): UIO[List[Base]] = {
-        UIO.succeed(Await.result(basicRepository.findAll(), Duration.Inf))
+        UIO.succeed {
+          logger.info("[BusinessService.ServiceImpl()] findAll.")
+          Await.result(basicRepository.findAll(), Duration.Inf)
+        }
       }
     }
 

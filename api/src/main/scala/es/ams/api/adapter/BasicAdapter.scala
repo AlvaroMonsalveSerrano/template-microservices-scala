@@ -47,7 +47,7 @@ private[api] object BasicAdapter extends BasicAdapter {
     ) match {
       case Success(value) => Right(CreateResponse(id = value))
       case Failure(ex) => {
-        logger.error(s"EXCEPTION->${ex.prettyPrint}") // TODO to file log
+        logger.error(s"EXCEPTION->${ex.prettyPrint}")
         Left(ErrorResponse(codError = 0, message = "Internal error"))
       }
     }
@@ -60,7 +60,7 @@ private[api] object BasicAdapter extends BasicAdapter {
     ) match {
       case Success(value) => Right(value)
       case Failure(ex) => {
-        logger.error(s"EXCEPTION->${ex.prettyPrint}") // TODO to file log
+        logger.error(s"EXCEPTION->${ex.prettyPrint}")
         Left(ErrorResponse(codError = 0, message = "Internal error"))
       }
     }
@@ -73,7 +73,7 @@ private[api] object BasicAdapter extends BasicAdapter {
     ) match {
       case Success(value) => Right(value)
       case Failure(ex) => {
-        logger.error(s"EXCEPTION->${ex.prettyPrint}") // TODO to file log
+        logger.error(s"EXCEPTION->${ex.prettyPrint}")
         Left(ErrorResponse(codError = 0, message = "Internal error"))
       }
     }

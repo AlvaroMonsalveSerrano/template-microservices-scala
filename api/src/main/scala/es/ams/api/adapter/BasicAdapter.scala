@@ -5,8 +5,11 @@ import zio._
 import zio.Exit.{Failure, Success}
 import es.ams.api.views.BasicViews._
 import es.ams.services._
+import es.ams.api.Utils
 
 import com.typesafe.scalalogging._
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 private[api] trait BasicAdapter {
   def getList(): Either[ErrorResponse, List[BasicResponse]]
@@ -26,8 +29,9 @@ private[api] object BasicAdapter extends BasicAdapter {
     logger.info(s"[BasicAdapter] getList()")
 
     // Hay que cargar la URL desde la configuración.
-    val urlDatabase: Option[String] = Some("postgresql://localhost:5436/prueba?user=postgres&password=password")
-    Runtime.default.unsafeRunSync(programGetList().provideCustomLayer(serviceBasicService(urlDatabase))) match {
+    Runtime.default.unsafeRunSync(
+      programGetList().provideCustomLayer(serviceBasicService(Utils.apply().loadURIPostgresql()))
+    ) match {
       case Success(value) => Right(value)
       case Failure(ex) => {
         logger.error(s"EXCEPTION->${ex.prettyPrint}")
@@ -38,7 +42,9 @@ private[api] object BasicAdapter extends BasicAdapter {
 
   def doPost(dtoRequest: CreateBasic): Either[ErrorResponse, CreateResponse] = {
     logger.info(s"[BasicAdapter] doPost()")
-    Runtime.default.unsafeRunSync(programDoPost(dtoRequest).provideLayer(serviceBasicService())) match {
+    Runtime.default.unsafeRunSync(
+      programDoPost(dtoRequest).provideLayer(serviceBasicService(Utils.apply().loadURIPostgresql()))
+    ) match {
       case Success(value) => Right(CreateResponse(id = value))
       case Failure(ex) => {
         logger.error(s"EXCEPTION->${ex.prettyPrint}") // TODO to file log
@@ -49,7 +55,9 @@ private[api] object BasicAdapter extends BasicAdapter {
 
   def doPut(dtoRequest: UpdateBasic): Either[ErrorResponse, BasicResponse] = {
     logger.info(s"[BasicAdapter] doPut()")
-    Runtime.default.unsafeRunSync(programDoPut(dtoRequest).provideLayer(serviceBasicService())) match {
+    Runtime.default.unsafeRunSync(
+      programDoPut(dtoRequest).provideLayer(serviceBasicService(Utils.apply().loadURIPostgresql()))
+    ) match {
       case Success(value) => Right(value)
       case Failure(ex) => {
         logger.error(s"EXCEPTION->${ex.prettyPrint}") // TODO to file log
@@ -60,7 +68,9 @@ private[api] object BasicAdapter extends BasicAdapter {
 
   def doDelete(dtoRequest: DeleteBasic): Either[ErrorResponse, Int] = {
     logger.info(s"[BasicAdapter] doDelete()")
-    Runtime.default.unsafeRunSync(programDoDelete(dtoRequest).provideLayer(serviceBasicService())) match {
+    Runtime.default.unsafeRunSync(
+      programDoDelete(dtoRequest).provideLayer(serviceBasicService(Utils.apply().loadURIPostgresql()))
+    ) match {
       case Success(value) => Right(value)
       case Failure(ex) => {
         logger.error(s"EXCEPTION->${ex.prettyPrint}") // TODO to file log
